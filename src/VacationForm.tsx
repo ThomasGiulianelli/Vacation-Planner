@@ -1,9 +1,16 @@
 import * as React from 'react';
 
-export interface Props {}
+interface Props {
+  onViewChange: Function;
+}
+/*
+interface State {
+  departureDate: String;
+  returnDate: String;
+}*/
 
-class VacationForm extends React.Component<any,any> {
-    constructor(props: any) {
+class VacationForm extends React.Component<Props,any> {
+    constructor(props: Props) {
       super(props);
       this.state = {
           departureDate: "",

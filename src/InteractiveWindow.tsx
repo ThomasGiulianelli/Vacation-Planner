@@ -2,7 +2,16 @@ import * as React from 'react';
 
 import VacationForm from './VacationForm';
 
-class InteractiveWindow extends React.Component<any,any> {
+interface State {
+    resultComputed: boolean;
+}
+
+interface ViewProps {
+    resultComputed: boolean;
+    onViewChange: Function;
+}
+
+class InteractiveWindow extends React.Component<any,State> {
     constructor(props: any) {
         super(props);
         this.handleViewChange = this.handleViewChange.bind(this);
@@ -30,7 +39,7 @@ function Instructions() {
     return <p>Please fill out the following informaton about your trip.</p>;
 }
 
-function View(props: any) {
+function View(props: ViewProps) {
     const resultComputed = props.resultComputed;
     
     if (!resultComputed) {
