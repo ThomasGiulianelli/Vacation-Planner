@@ -1,21 +1,15 @@
 import * as React from 'react';
 
 interface Props {
+  departureDate: string;
+  returnDate: string;
+  onDataChange: Function;
   onViewChange: Function;
 }
-/*
-interface State {
-  departureDate: String;
-  returnDate: String;
-}*/
 
 class VacationForm extends React.Component<Props,any> {
     constructor(props: Props) {
       super(props);
-      this.state = {
-          departureDate: "",
-          returnDate: ""
-      };
   
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,11 +17,13 @@ class VacationForm extends React.Component<Props,any> {
   
     handleChange(event: any) {
       const name = event.target.name;
-      this.setState({[name]: event.target.value});
+      const date = event.target.value;
+
+      this.props.onDataChange(name, date);
     }
   
     handleSubmit(event: any) {
-      alert('Your dates are: ' + this.state.departureDate + ' ' + this.state.returnDate);
+      alert('Your dates are: ' + this.props.departureDate + ' ' + this.props.returnDate);
       this.props.onViewChange(event.target.value);
       event.preventDefault();
     }
@@ -42,7 +38,7 @@ class VacationForm extends React.Component<Props,any> {
           <br/>
           <label>
             Select the return date:
-            <input name="returnDate" type="date" min={this.state.departureDate} onChange={this.handleChange}></input>
+            <input name="returnDate" type="date" min={this.props.departureDate} onChange={this.handleChange}></input>
           </label>
           <br/>
           <input type="submit" value="Submit" />
