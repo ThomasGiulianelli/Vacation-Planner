@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import VacationForm from './VacationForm';
+import ResultScreen from './ResultScreen';
 
 interface State {
   resultComputed: boolean;
@@ -75,8 +76,14 @@ function View(props: ViewProps) {
               onDataChange={props.onDataChange} 
               onViewChange={props.onViewChange} />
           </div>
-      </div>);
+      </div>
+    );
   } else {
-    return <div><p>Results and reccomendations go here.</p></div>;
+    return (
+      <div>
+        <p>Results and reccomendations go here.</p>
+        <ResultScreen departureDate={props.departureDate} returnDate={props.returnDate} />
+      </div>
+    );
   }
 }
