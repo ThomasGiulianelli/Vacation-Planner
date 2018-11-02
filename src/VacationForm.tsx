@@ -1,9 +1,11 @@
 import * as React from 'react';
 
 interface Props {
+  numPeople: number;
   departureDate: string;
   returnDate: string;
-  onDataChange: Function;
+  onDateChange: Function;
+  onPeopleChange: Function;
   onViewChange: Function;
 }
 
@@ -17,13 +19,17 @@ class VacationForm extends React.Component<Props,any> {
   
     handleChange(event: any) {
       const name = event.target.name;
-      const date = event.target.value;
-
-      this.props.onDataChange(name, date);
+      if (name === "numPeople") {
+        this.props.onPeopleChange(event.target.value);
+      }
+      else {
+        const date = event.target.value;
+        this.props.onDateChange(name, date);
+      }
     }
   
     handleSubmit(event: any) {
-      alert('Your dates are: ' + this.props.departureDate + ' ' + this.props.returnDate);
+      alert('Your numPeople is ' + this.props.numPeople);
       this.props.onViewChange(event.target.value);
       event.preventDefault();
     }
@@ -31,6 +37,20 @@ class VacationForm extends React.Component<Props,any> {
     render() {
       return (
         <form onSubmit={this.handleSubmit}>
+          <label>
+            How many people are going on this trip?
+            <select name="numPeople" value={this.props.numPeople} onChange={this.handleChange}>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+              <option value={6}>6</option>
+              <option value={7}>7</option>
+              <option value={8}>8</option>
+            </select>
+          </label>
+          <br/>
           <label>
             Select the departure date:
             <input name="departureDate" type="date" onChange={this.handleChange}></input>

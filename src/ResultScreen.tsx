@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 interface Props {
+  numPeople: number;
   departureDate: string;
   returnDate: string;
 }
@@ -12,7 +13,7 @@ class ResultScreen extends React.Component<Props,any> {
     }
 
     render() {
-      const clothingRecommendation = CalculateClothing(this.props.departureDate, this.props.returnDate);
+      const clothingRecommendation = CalculateClothing(this.props.numPeople, this.props.departureDate, this.props.returnDate);
       const listItems = clothingRecommendation.map((recommendation) =>
         <li key={recommendation.id}>{recommendation.id} {recommendation.amount}</li>
       );
@@ -28,7 +29,7 @@ class ResultScreen extends React.Component<Props,any> {
 
 export default ResultScreen;
 
-function CalculateClothing(departureDate: string, returnDate: string) {
+function CalculateClothing(numPeople: number, departureDate: string, returnDate: string) {
   
   /* Clothes that will likely be utilized every day. */
   let dailyEssentials = [
@@ -61,28 +62,28 @@ function CalculateClothing(departureDate: string, returnDate: string) {
   const oneDayMS = 1000 * 60 * 60 * 24; //defines the length of a day in milliseconds
   const startDayMS = startDay.getTime();
   const endDayMS = endDay.getTime();
-  const differenceMS = endDayMS - startDayMS;
+  const differenceMS = Math.abs(endDayMS - startDayMS);
   const numDays = Math.round(differenceMS / oneDayMS);
 
   if (numDays > 0 && numDays < 7) {
     dailyEssentials.forEach((item) => {
-      item.amount = numDays;
+      item.amount = numDays * numPeople;
     });
     weeklyEssentials.forEach((item) => {
-      item.amount = 1;
+      item.amount = 1 * numPeople;
     });
     weatherSpecific.forEach((item) => {
-      item.amount = 1;
+      item.amount = 1 * numPeople;
     });
   } else if (numDays >= 7) {
     dailyEssentials.forEach((item) => {
-      item.amount = 7 + Math.round(numDays / 5);
+      item.amount = (7 + Math.round(numDays / 5)) * numPeople;
     });
     weeklyEssentials.forEach((item) => {
-      item.amount = Math.round(numDays/7);
+      item.amount = Math.round(numDays/7) * numPeople;
     });
     weatherSpecific.forEach((item) => {
-      item.amount = 1;
+      item.amount = 1 * numPeople;
     });
   }
 
