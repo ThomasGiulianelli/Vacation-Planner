@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 
-import logo from './logo.svg';
+import logo from './assets/backpack.gif';
 import InteractiveWindow from './InteractiveWindow';
 
 class App extends React.Component {
@@ -12,7 +12,8 @@ class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to Vacation Planner</h1>
         </header>
-        <InteractiveWindow />
+        
+          <InteractiveWindow />
         
       </div>
     );

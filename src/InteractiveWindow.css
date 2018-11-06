@@ -1,0 +1,23 @@
+.InteractiveWindow {
+  height: 1000px;
+  background-color: #ffffff;
+  background: url("assets/palmBeach.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+
+.Instructions {
+  font-size: large;
+  padding-top: 200px;
+}
+
+.Form {
+  font-size: medium;
+}
+
+.Results {
+  font-size: large;
+  padding-top: 200px;
+}

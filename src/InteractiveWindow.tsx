@@ -1,4 +1,5 @@
 import * as React from 'react';
+import "./InteractiveWindow.css";
 
 import VacationForm from './VacationForm';
 import ResultScreen from './ResultScreen';
@@ -54,7 +55,7 @@ class InteractiveWindow extends React.Component<any,State> {
       const endDay = this.state.returnDate;
 
       return (
-        <div>
+        <div className="InteractiveWindow">
           <View 
             resultComputed={resultComputed} 
             numPeople={numPeople}
@@ -79,9 +80,9 @@ function View(props: ViewProps) {
     
   if (!resultComputed) {
     return (
-      <div>
+      <div className="Instructions">
         <Instructions />
-          <div>
+          <div className="Form">
             <VacationForm 
               numPeople={props.numPeople}
               departureDate={props.departureDate} 
@@ -94,7 +95,7 @@ function View(props: ViewProps) {
     );
   } else {
     return (
-      <div>
+      <div className="Results">
         <p>Results and reccomendations go here.</p>
         <ResultScreen numPeople={props.numPeople} departureDate={props.departureDate} returnDate={props.returnDate} />
       </div>
