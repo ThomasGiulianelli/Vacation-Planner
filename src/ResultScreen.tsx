@@ -26,7 +26,7 @@ class ResultScreen extends React.Component<Props,any> {
 
       return(
         <div>
-          <p>Each person should bring</p>
+          <p>Each person should bring at least</p>
           <ul>
             {listItems}
           </ul>
@@ -43,7 +43,8 @@ class ResultScreen extends React.Component<Props,any> {
 export default ResultScreen;
 
 function CalculateClothing(numPeople: number, departureDate: string, returnDate: string) {
-  
+  const fortnite = 14; //We will assume the user will be washing their clothes during vacations lasting more than 14 days.
+
   /* Clothes that will likely be utilized every day. */
   let dailyEssentials = [
     {id: 'numShirts', amount: 0},
@@ -65,7 +66,7 @@ function CalculateClothing(numPeople: number, departureDate: string, returnDate:
     {id: 'rainGear', amount: 0} // umbrellas or ponchos
   ];
 
-  let locationSpecific = [
+  let activitySpecific = [
     {id: 'bathingSuits', amount: 0}
   ];
 
@@ -78,28 +79,28 @@ function CalculateClothing(numPeople: number, departureDate: string, returnDate:
   const differenceMS = Math.abs(endDayMS - startDayMS);
   const numDays = Math.round(differenceMS / oneDayMS);
 
-  if (numDays > 0 && numDays < 7) {
+  if (numDays > 0 && numDays <= fortnite) {
     dailyEssentials.forEach((item) => {
       item.amount = numDays;
     });
     weeklyEssentials.forEach((item) => {
-      item.amount = 1;
+      item.amount = 2;
     });
     weatherSpecific.forEach((item) => {
       item.amount = 1 * numPeople;
     });
-  } else if (numDays >= 7) {
+  } else if (numDays > fortnite) {
     dailyEssentials.forEach((item) => {
-      item.amount = (7 + Math.round(numDays / 5));
+      item.amount = fortnite;
     });
     weeklyEssentials.forEach((item) => {
-      item.amount = Math.round(numDays/7);
+      item.amount = 2;
     });
     weatherSpecific.forEach((item) => {
       item.amount = 1 * numPeople;
     });
   }
 
-  const clothes = dailyEssentials.concat(weeklyEssentials, weatherSpecific, locationSpecific);
+  const clothes = dailyEssentials.concat(weeklyEssentials, weatherSpecific, activitySpecific);
   return clothes;
 }
