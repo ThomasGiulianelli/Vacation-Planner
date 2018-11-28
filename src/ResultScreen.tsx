@@ -20,9 +20,14 @@ class ResultScreen extends React.Component<Props,any> {
         <li key={recommendation.id}>{recommendation.amount} {recommendation.id}</li>
       );
       let rainGear;
+      let sunglasses;
       listItems.forEach((item,index) => {
         if(item.key == "Rain Gear (umbrellas or ponchos)") {
           rainGear = item;
+          listItems.splice(index,1);
+        }
+        else if(item.key == "Sunglasses") {
+          sunglasses = item;
           listItems.splice(index,1);
         }
       });
@@ -38,6 +43,7 @@ class ResultScreen extends React.Component<Props,any> {
             <p>You should also bring:</p>
             <ul>
               {rainGear}
+              {sunglasses}
             </ul>
           </div>
         </div>
@@ -76,6 +82,10 @@ function CalculateClothing(numPeople: number, numDays: number) {
     {id: 'Bathing Suits', amount: 0}
   ];
 
+  let accessories = [
+    {id: 'Sunglasses', amount: 0}
+  ]
+
   if (numDays > 0 && numDays <= fortnite) {
     dailyEssentials.forEach((item) => {
       item.amount = numDays;
@@ -84,6 +94,9 @@ function CalculateClothing(numPeople: number, numDays: number) {
       item.amount = 2;
     });
     weatherSpecific.forEach((item) => {
+      item.amount = 1 * numPeople;
+    });
+    accessories.forEach((item) => {
       item.amount = 1 * numPeople;
     });
   } else if (numDays > fortnite) {
@@ -96,9 +109,12 @@ function CalculateClothing(numPeople: number, numDays: number) {
     weatherSpecific.forEach((item) => {
       item.amount = 1 * numPeople;
     });
+    accessories.forEach((item) => {
+      item.amount = 1 * numPeople;
+    });
   }
 
-  const clothes = dailyEssentials.concat(weeklyEssentials, weatherSpecific, activitySpecific);
+  const clothes = dailyEssentials.concat(weeklyEssentials, weatherSpecific, activitySpecific, accessories);
   return clothes;
 }
 
