@@ -17,11 +17,24 @@ class ResultScreen extends React.Component<Props,any> {
       const listItems = clothingRecommendation.map((recommendation) =>
         <li key={recommendation.id}>{recommendation.id} {recommendation.amount}</li>
       );
+      let rainGear;
+      listItems.forEach((item) => {
+        if(item.key == "rainGear") {
+          rainGear = item;
+        }
+      });
 
       return(
-        <ul>
-          {listItems}
-        </ul>
+        <div>
+          <p>Each person should bring</p>
+          <ul>
+            {listItems}
+          </ul>
+          <p>You should also bring</p>
+          <ul>
+            {rainGear}
+          </ul>
+        </div>
       );
     }
 
@@ -49,7 +62,7 @@ function CalculateClothing(numPeople: number, departureDate: string, returnDate:
 
   let weatherSpecific = [
     {id: 'numJackets', amount: 0},
-    {id: 'rainGear', amount: 0}
+    {id: 'rainGear', amount: 0} // umbrellas or ponchos
   ];
 
   let locationSpecific = [
@@ -67,20 +80,20 @@ function CalculateClothing(numPeople: number, departureDate: string, returnDate:
 
   if (numDays > 0 && numDays < 7) {
     dailyEssentials.forEach((item) => {
-      item.amount = numDays * numPeople;
+      item.amount = numDays;
     });
     weeklyEssentials.forEach((item) => {
-      item.amount = 1 * numPeople;
+      item.amount = 1;
     });
     weatherSpecific.forEach((item) => {
       item.amount = 1 * numPeople;
     });
   } else if (numDays >= 7) {
     dailyEssentials.forEach((item) => {
-      item.amount = (7 + Math.round(numDays / 5)) * numPeople;
+      item.amount = (7 + Math.round(numDays / 5));
     });
     weeklyEssentials.forEach((item) => {
-      item.amount = Math.round(numDays/7) * numPeople;
+      item.amount = Math.round(numDays/7);
     });
     weatherSpecific.forEach((item) => {
       item.amount = 1 * numPeople;
