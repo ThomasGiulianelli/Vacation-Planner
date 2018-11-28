@@ -1,4 +1,5 @@
 import * as React from 'react';
+import "./ResultScreen.css";
 
 interface Props {
   numPeople: number;
@@ -13,27 +14,32 @@ class ResultScreen extends React.Component<Props,any> {
     }
 
     render() {
-      const clothingRecommendation = CalculateClothing(this.props.numPeople, this.props.departureDate, this.props.returnDate);
+      const numDays = CalculateVacationLength(this.props.departureDate, this.props.returnDate);
+      const clothingRecommendation = CalculateClothing(this.props.numPeople, numDays);
       const listItems = clothingRecommendation.map((recommendation) =>
-        <li key={recommendation.id}>{recommendation.id} {recommendation.amount}</li>
+        <li key={recommendation.id}>{recommendation.amount} {recommendation.id}</li>
       );
       let rainGear;
-      listItems.forEach((item) => {
-        if(item.key == "rainGear") {
+      listItems.forEach((item,index) => {
+        if(item.key == "Rain Gear (umbrellas or ponchos)") {
           rainGear = item;
+          listItems.splice(index,1);
         }
       });
 
       return(
-        <div>
-          <p>Each person should bring at least</p>
-          <ul>
-            {listItems}
-          </ul>
-          <p>You should also bring</p>
-          <ul>
-            {rainGear}
-          </ul>
+        <div className="Centered-box">
+          <p>Here are our reccomendations on what you should pack for your {numDays}-day trip.</p>
+          <div className="Inner-box">
+            <p>Each person should bring at least:</p>
+            <ul>
+              {listItems}
+            </ul>
+            <p>You should also bring:</p>
+            <ul>
+              {rainGear}
+            </ul>
+          </div>
         </div>
       );
     }
@@ -42,42 +48,33 @@ class ResultScreen extends React.Component<Props,any> {
 
 export default ResultScreen;
 
-function CalculateClothing(numPeople: number, departureDate: string, returnDate: string) {
+function CalculateClothing(numPeople: number, numDays: number) {
   const fortnite = 14; //We will assume the user will be washing their clothes during vacations lasting more than 14 days.
 
   /* Clothes that will likely be utilized every day. */
   let dailyEssentials = [
-    {id: 'numShirts', amount: 0},
-    {id: 'numBottoms', amount: 0},
-    {id: 'numUnderwear', amount: 0},
-    {id: 'numSocks', amount: 0}
+    {id: 'Shirts', amount: 0},
+    {id: 'Bottoms', amount: 0},
+    {id: 'Underwear', amount: 0},
+    {id: 'Socks', amount: 0}
   ];
 
   /* Clothes that will likely be utilized at least once over the course of a week. 
     These generally don't need to be washed. */
   let weeklyEssentials = [
-    {id: 'numShoes', amount: 0},
-    {id: 'numSweaters', amount: 0},
-    {id: 'numHats', amount: 0}
+    {id: 'Shoes', amount: 0},
+    {id: 'Sweaters', amount: 0},
+    {id: 'Hats', amount: 0},
+    {id: 'Jackets', amount: 0}
   ];
 
   let weatherSpecific = [
-    {id: 'numJackets', amount: 0},
-    {id: 'rainGear', amount: 0} // umbrellas or ponchos
+    {id: 'Rain Gear (umbrellas or ponchos)', amount: 0}
   ];
 
   let activitySpecific = [
-    {id: 'bathingSuits', amount: 0}
+    {id: 'Bathing Suits', amount: 0}
   ];
-
-  /* Calculate the length of the trip in days. */
-  const startDay = new Date(departureDate);
-  const endDay = new Date(returnDate);
-  const oneDayMS = 1000 * 60 * 60 * 24; //defines the length of a day in milliseconds
-  const startDayMS = startDay.getTime();
-  const endDayMS = endDay.getTime();
-  const differenceMS = Math.abs(endDayMS - startDayMS);
-  const numDays = Math.round(differenceMS / oneDayMS);
 
   if (numDays > 0 && numDays <= fortnite) {
     dailyEssentials.forEach((item) => {
@@ -103,4 +100,17 @@ function CalculateClothing(numPeople: number, departureDate: string, returnDate:
 
   const clothes = dailyEssentials.concat(weeklyEssentials, weatherSpecific, activitySpecific);
   return clothes;
+}
+
+function CalculateVacationLength(departureDate: string, returnDate: string) {
+  /* Calculate the length of the trip in days. */
+  const startDay = new Date(departureDate);
+  const endDay = new Date(returnDate);
+  const oneDayMS = 1000 * 60 * 60 * 24; //defines the length of a day in milliseconds
+  const startDayMS = startDay.getTime();
+  const endDayMS = endDay.getTime();
+  const differenceMS = Math.abs(endDayMS - startDayMS);
+  const numDays = Math.round(differenceMS / oneDayMS);
+
+  return numDays;
 }

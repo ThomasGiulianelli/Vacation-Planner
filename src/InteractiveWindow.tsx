@@ -96,7 +96,6 @@ function View(props: ViewProps) {
   } else {
     return (
       <div className="Results">
-        <p>Results and reccomendations go here.</p>
         <ResultScreen numPeople={props.numPeople} departureDate={props.departureDate} returnDate={props.returnDate} />
       </div>
     );
