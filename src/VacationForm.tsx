@@ -53,12 +53,12 @@ class VacationForm extends React.Component<Props,any> {
           <br/>
           <label>
             Select the departure date:
-            <input name="departureDate" type="date" onChange={this.handleChange}></input>
+            <input name="departureDate" type="date" onChange={this.handleChange} required></input>
           </label>
           <br/>
           <label>
             Select the return date:
-            <input name="returnDate" type="date" min={this.props.departureDate} onChange={this.handleChange}></input>
+            <input name="returnDate" type="date" min={this.props.departureDate} onChange={this.handleChange} required></input>
           </label>
           <br/>
           <input type="submit" value="Submit" />
