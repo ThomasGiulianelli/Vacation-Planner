@@ -29,7 +29,6 @@ class VacationForm extends React.Component<Props,any> {
     }
   
     handleSubmit(event: any) {
-      alert('Your numPeople is ' + this.props.numPeople);
       this.props.onViewChange(event.target.value);
       event.preventDefault();
     }
