@@ -1,5 +1,47 @@
 ul {
   list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul li {
+  cursor: pointer;
+  position: relative;
+  padding: 12px 8px 12px 40px;
+  background: rgb(159, 235, 238);
+  font-size: 18px;
+  transition: 0.2s;
+}
+
+/* Set all odd list items to a different color (zebra-stripes) */
+ul li:nth-child(odd) {
+  background: rgb(170, 252, 255);
+}
+
+/* Darker background-color on hover */
+ul li:hover {
+  background: rgb(0, 174, 255);
+}
+
+/* When clicked on, add a background color and strike out text */
+ul li.checked {
+  background: #888;
+  color: #fff;
+  text-decoration: line-through;
+}
+
+/* Add a "checked" mark when clicked on */
+ul li.checked::before {
+  content: '';
+  position: absolute;
+  border-color: #fff;
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  top: 10px;
+  left: 16px;
+  transform: rotate(45deg);
+  height: 15px;
+  width: 7px;
 }
 
 .Centered-box {
@@ -13,4 +55,5 @@ ul {
 .Inner-box {
   text-align: left;
   padding-left: 100px;
+  padding-right: 100px;
 }

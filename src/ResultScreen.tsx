@@ -13,11 +13,15 @@ class ResultScreen extends React.Component<Props,any> {
 
     }
 
+    handleCheck(event: any) {
+      event.target.classList.toggle('checked');
+    }
+
     render() {
       const numDays = CalculateVacationLength(this.props.departureDate, this.props.returnDate);
       const clothingRecommendation = CalculateClothing(this.props.numPeople, numDays);
       const listItems = clothingRecommendation.map((recommendation) =>
-        <li key={recommendation.id}><input type="checkbox" />{recommendation.amount} {recommendation.id}</li>
+        <li key={recommendation.id} onClick={this.handleCheck}>{recommendation.amount} {recommendation.id}</li>
       );
       let rainGear;
       let sunglasses;
