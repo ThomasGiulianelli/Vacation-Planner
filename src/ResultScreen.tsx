@@ -2,6 +2,8 @@ import * as React from 'react';
 import "./ResultScreen.css";
 
 interface Props {
+  temperature: number;
+  country: string;
   numPeople: number;
   departureDate: string;
   returnDate: string;
@@ -19,6 +21,7 @@ class ResultScreen extends React.Component<Props,any> {
 
     render() {
       const numDays = CalculateVacationLength(this.props.departureDate, this.props.returnDate);
+      const avgtemp = this.props.temperature;
       const clothingRecommendation = CalculateClothing(this.props.numPeople, numDays);
       const listItems = clothingRecommendation.map((recommendation) =>
         <li key={recommendation.id} onClick={this.handleCheck}>{recommendation.amount} {recommendation.id}</li>
@@ -39,6 +42,7 @@ class ResultScreen extends React.Component<Props,any> {
       return(
         <div className="Centered-box">
           <p>Here are our reccomendations on what you should pack for your {numDays}-day trip.</p>
+          <p>the average temperature for January is {avgtemp}</p>
           <div className="Inner-box">
             <p>Each person should bring at least:</p>
             <ul>

@@ -6,6 +6,8 @@ import ResultScreen from './ResultScreen';
 
 interface State {
   resultComputed: boolean;
+  temperature: number;
+  country: string;
   numPeople: number;
   departureDate: string;
   returnDate: string;
@@ -13,9 +15,13 @@ interface State {
 
 interface ViewProps {
   resultComputed: boolean;
+  temperature: number;
+  country: string;
   numPeople: number;
   departureDate: string;
   returnDate: string;
+  onSubmit: Function;
+  onCountryChange: Function;
   onDateChange: Function;
   onPeopleChange: Function;
   onViewChange: Function;
@@ -24,15 +30,29 @@ interface ViewProps {
 class InteractiveWindow extends React.Component<any,State> {
     constructor(props: any) {
       super(props);
+      this.handleCountryChange = this.handleCountryChange.bind(this);
       this.handleDateChange = this.handleDateChange.bind(this);
       this.handlePeopleChange = this.handlePeopleChange.bind(this);
       this.handleViewChange = this.handleViewChange.bind(this);
       this.state = {
         resultComputed: false,
+        temperature: 0,
+        country: "",
         numPeople: 1,
         departureDate: "",
         returnDate: ""
       };
+    }
+
+    getWeather = async (event: any) => {
+      const country = event.target.elements.country.value;
+      const api_call = await fetch(`http://climatedataapi.worldbank.org/climateweb/rest/v1/country/cru/tas/month/${country}`);
+      const temperatureData = await api_call.json();
+      this.setState({temperature: temperatureData[0].data});
+    }
+
+    handleCountryChange(countryCode: string) {
+      this.setState({country: countryCode});
     }
 
     handleDateChange(name: string, date: string) {
@@ -50,6 +70,8 @@ class InteractiveWindow extends React.Component<any,State> {
 
     render() {
       const resultComputed = this.state.resultComputed;
+      const temperature = this.state.temperature;
+      const country = this.state.country;
       const numPeople = this.state.numPeople;
       const startDay = this.state.departureDate;
       const endDay = this.state.returnDate;
@@ -58,9 +80,13 @@ class InteractiveWindow extends React.Component<any,State> {
         <div className="InteractiveWindow">
           <View 
             resultComputed={resultComputed} 
+            temperature={temperature}
+            country={country}
             numPeople={numPeople}
             departureDate={startDay} 
             returnDate={endDay} 
+            onSubmit={this.getWeather}
+            onCountryChange={this.handleCountryChange}
             onDateChange={this.handleDateChange} 
             onPeopleChange={this.handlePeopleChange}
             onViewChange={this.handleViewChange} />
@@ -84,9 +110,12 @@ function View(props: ViewProps) {
         <Instructions />
           <div className="Form">
             <VacationForm 
+              country={props.country}
               numPeople={props.numPeople}
               departureDate={props.departureDate} 
               returnDate={props.returnDate} 
+              onSubmit={props.onSubmit}
+              onCountryChange={props.onCountryChange}
               onDateChange={props.onDateChange} 
               onPeopleChange={props.onPeopleChange}
               onViewChange={props.onViewChange} />
@@ -96,7 +125,7 @@ function View(props: ViewProps) {
   } else {
     return (
       <div className="Results">
-        <ResultScreen numPeople={props.numPeople} departureDate={props.departureDate} returnDate={props.returnDate} />
+        <ResultScreen temperature={props.temperature} country={props.country} numPeople={props.numPeople} departureDate={props.departureDate} returnDate={props.returnDate} />
       </div>
     );
   }

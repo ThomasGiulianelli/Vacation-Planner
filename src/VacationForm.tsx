@@ -1,9 +1,12 @@
 import * as React from 'react';
 
 interface Props {
+  country: string;
   numPeople: number;
   departureDate: string;
   returnDate: string;
+  onSubmit: Function;
+  onCountryChange: Function;
   onDateChange: Function;
   onPeopleChange: Function;
   onViewChange: Function;
@@ -22,6 +25,9 @@ class VacationForm extends React.Component<Props,any> {
       if (name === "numPeople") {
         this.props.onPeopleChange(event.target.value);
       }
+      else if (name === "country") {
+        this.props.onCountryChange(event.target.value);
+      }
       else {
         const date = event.target.value;
         this.props.onDateChange(name, date);
@@ -30,12 +36,18 @@ class VacationForm extends React.Component<Props,any> {
   
     handleSubmit(event: any) {
       this.props.onViewChange(event.target.value);
+      this.props.onSubmit(event);
       event.preventDefault();
     }
   
     render() {
       return (
         <form onSubmit={this.handleSubmit}>
+          <label>
+            In which country will you be staying?
+            <input name="country" type="text" onChange={this.handleChange}></input>
+          </label>
+          <br/>
           <label>
             How many people are going on this trip?
             <select name="numPeople" value={this.props.numPeople} onChange={this.handleChange}>
