@@ -28,9 +28,25 @@ class ResultScreen extends React.Component<Props,any> {
     }
 
     render() {
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ]
       const numDays = CalculateVacationLength(this.props.departureDate, this.props.returnDate);
       const avgtemps = this.props.temperature;
       const avgprecip = this.props.precipitation;
+      const departureMonth = parseInt(this.props.departureDate.substr(5,2));
+      
       const clothingRecommendation = CalculateClothing(this.props.numPeople, numDays);
       const listItems = clothingRecommendation.map((recommendation) =>
         <li key={recommendation.id} onClick={this.handleCheck}>{recommendation.amount} {recommendation.id}</li>
@@ -51,8 +67,8 @@ class ResultScreen extends React.Component<Props,any> {
       return(
         <div className="Centered-box">
           <p>Here are our reccomendations on what you should pack for your {numDays}-day trip.</p>
-          {avgtemps.length == 12 && <p>The average temperature for January is {avgtemps[0].data}°C</p>}
-          {avgprecip.length == 12 && <p>The average precipitation for January is {avgprecip[0].data}mm</p>}
+          {avgtemps.length == 12 && <p>The average temperature for {months[departureMonth - 1]} is {avgtemps[departureMonth - 1].data}°C</p>}
+          {avgprecip.length == 12 && <p>The average precipitation for {months[departureMonth - 1]} is {avgprecip[departureMonth - 1].data}mm</p>}
           <div className="Inner-box">
             <p>Each person should bring at least:</p>
             <ul>
