@@ -48,7 +48,13 @@ class InteractiveWindow extends React.Component<any,State> {
       const country = event.target.elements.country.value;
       const api_call = await fetch(`http://climatedataapi.worldbank.org/climateweb/rest/v1/country/cru/tas/month/${country}`);
       const temperatureData = await api_call.json();
+      console.log(temperatureData);
+      try {
       this.setState({temperature: temperatureData[0].data});
+      }
+      catch(err) {
+        console.log(err);
+      }
     }
 
     handleCountryChange(countryCode: string) {
