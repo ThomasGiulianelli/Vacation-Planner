@@ -67,8 +67,8 @@ class ResultScreen extends React.Component<Props,any> {
       return(
         <div className="Centered-box">
           <p>Here are our reccomendations on what you should pack for your {numDays}-day trip.</p>
-          {avgtemps.length == 12 && <p>The average temperature for {months[departureMonth - 1]} is {avgtemps[departureMonth - 1].data}°C</p>}
-          {avgprecip.length == 12 && <p>The average precipitation for {months[departureMonth - 1]} is {avgprecip[departureMonth - 1].data}mm</p>}
+          {avgtemps.length == 12 && <p>The average temperature for {months[departureMonth - 1]} is {avgtemps[departureMonth - 1].data.toFixed(2)}°C</p>}
+          {avgprecip.length == 12 && <p>The average precipitation for {months[departureMonth - 1]} is {avgprecip[departureMonth - 1].data.toFixed(2)}mm</p>}
           <div className="Inner-box">
             <p>Each person should bring at least:</p>
             <ul>
