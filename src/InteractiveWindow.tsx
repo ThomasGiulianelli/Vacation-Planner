@@ -4,9 +4,16 @@ import "./InteractiveWindow.css";
 import VacationForm from './VacationForm';
 import ResultScreen from './ResultScreen';
 
+interface Weather {
+  month: number;
+  data: number
+}
+
+interface WeatherArray extends Array<Weather>{}
+
 interface State {
   resultComputed: boolean;
-  temperature: number;
+  temperature: WeatherArray;
   country: string;
   numPeople: number;
   departureDate: string;
@@ -15,7 +22,7 @@ interface State {
 
 interface ViewProps {
   resultComputed: boolean;
-  temperature: number;
+  temperature: WeatherArray;
   country: string;
   numPeople: number;
   departureDate: string;
@@ -36,7 +43,7 @@ class InteractiveWindow extends React.Component<any,State> {
       this.handleViewChange = this.handleViewChange.bind(this);
       this.state = {
         resultComputed: false,
-        temperature: 0,
+        temperature: [],
         country: "",
         numPeople: 1,
         departureDate: "",
@@ -50,7 +57,7 @@ class InteractiveWindow extends React.Component<any,State> {
       const temperatureData = await api_call.json();
       console.log(temperatureData);
       try {
-      this.setState({temperature: temperatureData[0].data});
+      this.setState({temperature: temperatureData});
       }
       catch(err) {
         console.log(err);
