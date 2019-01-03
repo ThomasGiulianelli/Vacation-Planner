@@ -46,7 +46,7 @@ class ResultScreen extends React.Component<Props,any> {
       const avgtemps = this.props.temperature;
       const avgprecip = this.props.precipitation;
       const departureMonth = parseInt(this.props.departureDate.substr(5,2));
-      
+
       const clothingRecommendation = CalculateClothing(this.props.numPeople, numDays);
       const listItems = clothingRecommendation.map((recommendation) =>
         <li key={recommendation.id} onClick={this.handleCheck}>{recommendation.amount} {recommendation.id}</li>
@@ -94,7 +94,6 @@ function CalculateClothing(numPeople: number, numDays: number) {
   /* Clothes that will likely be utilized every day. */
   let dailyEssentials = [
     {id: 'Shirts', amount: 0},
-    {id: 'Bottoms', amount: 0},
     {id: 'Underwear', amount: 0},
     {id: 'Socks', amount: 0}
   ];
@@ -102,6 +101,7 @@ function CalculateClothing(numPeople: number, numDays: number) {
   /* Clothes that will likely be utilized at least once over the course of a week. 
     These generally don't need to be washed. */
   let weeklyEssentials = [
+    {id: 'Bottoms', amount: 0},
     {id: 'Shoes', amount: 0},
     {id: 'Sweaters', amount: 0},
     {id: 'Hats', amount: 0},
