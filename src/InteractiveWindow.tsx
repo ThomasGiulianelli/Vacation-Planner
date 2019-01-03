@@ -14,6 +14,7 @@ interface WeatherArray extends Array<Weather>{}
 interface State {
   resultComputed: boolean;
   temperature: WeatherArray;
+  precipitation: WeatherArray;
   country: string;
   numPeople: number;
   departureDate: string;
@@ -23,6 +24,7 @@ interface State {
 interface ViewProps {
   resultComputed: boolean;
   temperature: WeatherArray;
+  precipitation: WeatherArray;
   country: string;
   numPeople: number;
   departureDate: string;
@@ -44,6 +46,7 @@ class InteractiveWindow extends React.Component<any,State> {
       this.state = {
         resultComputed: false,
         temperature: [],
+        precipitation: [],
         country: "",
         numPeople: 1,
         departureDate: "",
@@ -53,11 +56,14 @@ class InteractiveWindow extends React.Component<any,State> {
 
     getWeather = async (event: any) => {
       const country = event.target.elements.country.value;
-      const api_call = await fetch(`http://climatedataapi.worldbank.org/climateweb/rest/v1/country/cru/tas/month/${country}`);
-      const temperatureData = await api_call.json();
+      const api_call_temp = await fetch(`http://climatedataapi.worldbank.org/climateweb/rest/v1/country/cru/tas/month/${country}`);
+      const temperatureData = await api_call_temp.json();
+      const api_call_precip = await fetch(`http://climatedataapi.worldbank.org/climateweb/rest/v1/country/cru/pr/month/${country}`);
+      const precipitationData = await api_call_precip.json();
       console.log(temperatureData);
       try {
       this.setState({temperature: temperatureData});
+      this.setState({precipitation: precipitationData});
       }
       catch(err) {
         console.log(err);
@@ -84,6 +90,7 @@ class InteractiveWindow extends React.Component<any,State> {
     render() {
       const resultComputed = this.state.resultComputed;
       const temperature = this.state.temperature;
+      const precipitation = this.state.precipitation;
       const country = this.state.country;
       const numPeople = this.state.numPeople;
       const startDay = this.state.departureDate;
@@ -94,6 +101,7 @@ class InteractiveWindow extends React.Component<any,State> {
           <View 
             resultComputed={resultComputed} 
             temperature={temperature}
+            precipitation={precipitation}
             country={country}
             numPeople={numPeople}
             departureDate={startDay} 
@@ -138,7 +146,7 @@ function View(props: ViewProps) {
   } else {
     return (
       <div className="Results">
-        <ResultScreen temperature={props.temperature} country={props.country} numPeople={props.numPeople} departureDate={props.departureDate} returnDate={props.returnDate} />
+        <ResultScreen temperature={props.temperature} precipitation={props.precipitation} country={props.country} numPeople={props.numPeople} departureDate={props.departureDate} returnDate={props.returnDate} />
       </div>
     );
   }

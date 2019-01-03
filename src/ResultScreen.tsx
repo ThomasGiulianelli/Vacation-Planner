@@ -10,6 +10,7 @@ interface WeatherArray extends Array<Weather>{}
 
 interface Props {
   temperature: WeatherArray;
+  precipitation: WeatherArray;
   country: string;
   numPeople: number;
   departureDate: string;
@@ -29,6 +30,7 @@ class ResultScreen extends React.Component<Props,any> {
     render() {
       const numDays = CalculateVacationLength(this.props.departureDate, this.props.returnDate);
       const avgtemps = this.props.temperature;
+      const avgprecip = this.props.precipitation;
       const clothingRecommendation = CalculateClothing(this.props.numPeople, numDays);
       const listItems = clothingRecommendation.map((recommendation) =>
         <li key={recommendation.id} onClick={this.handleCheck}>{recommendation.amount} {recommendation.id}</li>
@@ -49,7 +51,8 @@ class ResultScreen extends React.Component<Props,any> {
       return(
         <div className="Centered-box">
           <p>Here are our reccomendations on what you should pack for your {numDays}-day trip.</p>
-          {avgtemps.length == 12 && <p>the average temperature for January is {avgtemps[0].data}</p>}
+          {avgtemps.length == 12 && <p>The average temperature for January is {avgtemps[0].data}°C</p>}
+          {avgprecip.length == 12 && <p>The average precipitation for January is {avgprecip[0].data}mm</p>}
           <div className="Inner-box">
             <p>Each person should bring at least:</p>
             <ul>
